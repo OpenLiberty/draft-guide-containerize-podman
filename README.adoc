@@ -18,7 +18,7 @@
 :page-seo-title: Containerizing and running Java microservices in Podman containers
 :page-seo-description: A getting started tutorial with examples of how to containerize or dockerize your Java microservices by building a container image and running the image as a Podman container.
 :guide-author: Open Liberty
-= Containerizing microservices
+= Containerizing microservices with Podman
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the  https://openliberty.io/guides/{projectid}.html[Open Liberty website].
