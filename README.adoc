@@ -6,7 +6,7 @@
 // Contributors:
 //     IBM Corporation
 //
-:projectid: podman
+:projectid: containerize-podman
 :page-layout: guide-multipane
 :page-duration: 20 minutes
 :page-releasedate: 2019-07-23
@@ -37,18 +37,19 @@ From development to production and across your DevOps environments, you can depl
 efficiently with containers. You can run a container from a container image. Each container image is a package of what you
 need to run your microservice or application, from the code to its dependencies and configuration.
 
-You'll learn how to build container images and run containers using Podman for your microservices.
-You'll construct `Dockerfile` files, create Podman images by using the `podman build` command, and run the image as Podman containers 
+You'll learn how to build container images and run containers using the https://docs.podman.io[Pod Manager tool^] (Podman) for your microservices.
+You'll construct `Containerfile` files, create container images by using the `podman build` command, and run the image as containers 
 by using `podman run` command.
 
 The two microservices that you'll be working with are called `system` and `inventory`. The `system` microservice returns the JVM system properties 
 of the running container. The `inventory` microservice adds the properties from the `system` microservice to the inventory. This guide demonstrates how both microservices can run and communicate
-with each other in different Podman containers. 
+with each other in different containers. 
 
 == Additional prerequisites
 
-Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/getting-started/installation[official Podman documentation^]. You will build and run the microservices in Podman containers.
+Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/getting-started/installation[official Podman documentation^]. You will build and run the microservices in containers.
 
+If you are running Mac or Windows, make sure to start your Podman-managed VM before you proceed.
 
 ///////////////////////////
 // Getting started
@@ -109,7 +110,7 @@ ifdef::cloud-hosted[]
 Select **Terminal** > **New Terminal** from the menu of the IDE to open another command-line session and 
 run the following Maven goal to build the **inventory** microservice and run it inside Open Liberty:
 ```
-cd /home/project/guide-podman/start
+cd /home/project/guide-containerize-podman/start
 mvn -pl inventory liberty:run
 ```
 {: codeblock}
@@ -175,31 +176,31 @@ https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service^] f
 The `inventory` service is built in a similar way.
 
 
-== Building your Podman images
+== Building your container images
 
-A Podman image is a binary file. It is made up of multiple layers and is used to run code in a Podman container. Images are built from
-instructions in Dockerfiles to create a containerized version of the application.
+A container image is a binary file. It is made up of multiple layers and is used to run code in a container. Images are built from
+instructions in Containerfiles to create a containerized version of the application.
 
-A `Dockerfile` is a collection of instructions for building a Docker image that can then be run as a container. They can be interpreted by Podman as well.
-As each instruction is run in a `Dockerfile`, a new Podman layer is created. These layers, which are known as intermediate images, are created when a change is made to your Podman image.
+A `Containerfile` is a collection of instructions for building a container image that can then be run as a container.
+As each instruction is run in a `Containerfile`, a new image layer is created. These layers, which are known as intermediate images, are created when a change is made to your container image.
 
-Every `Dockerfile` begins with a parent or base image over which various commands are run. For example, you can start your image from scratch and run commands that download and install a Java runtime, or you can start from an image that already contains a Java installation.
+Every `Containerfile` begins with a parent or base image over which various commands are run. For example, you can start your image from scratch and run commands that download and install a Java runtime, or you can start from an image that already contains a Java installation.
 
 Learn more about Podman on the https://podman.io/getting-started/[official Podman page^].
 
-=== Creating your Dockerfiles
-You will be creating two Podman images to run the `inventory` service and `system` service. The first step is to create Dockerfiles for both services.
+=== Creating your Containerfiles
+You will be creating two container images to run the `inventory` service and `system` service. The first step is to create Containerfiles for both services.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the `Dockerfile` for the inventory service.#
-`inventory/Dockerfile`
+#Create the `Containerfile` for the inventory service.#
+`inventory/Containerfile`
 ----
 
-inventory/Dockerfile
+inventory/Containerfile
 [source, Text, linenums, indent=0, role="code_column"]
 ----
-include::finish/inventory/Dockerfile[]
+include::finish/inventory/Containerfile[]
 ----
 
 The [hotspot=from file=0]`FROM` instruction initializes a new build stage, which indicates the parent image of the built image. If you don't need a parent image, then you can use `FROM scratch`, which makes your image a base image. 
@@ -212,37 +213,37 @@ comes with the Open Liberty runtime, define the `FROM` instruction as `FROM open
 You can find all the https://hub.docker.com/_/open-liberty[official images^] and
 https://hub.docker.com/r/openliberty/open-liberty/[ubi images^] on the open-liberty Docker Hub.
 
-It is also recommended to label your Podman images with the [hotspot=label file=0]`LABEL` command, as the label information can help you manage your images. For more information, see https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#label[Best practices for writing Dockerfiles^].
+It is also recommended to label your container images with the [hotspot=label file=0]`LABEL` command, as the label information can help you manage your images. For more information, see https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#label[Best practices for writing Containerfiles^].
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions are structured as `COPY` [hotspot=config-userID hotspot=war-userID file=0]`[--chown=<user>:<group>]` [hotspot=inventory-config hotspot=inventory-war file=0]`<source>` [hotspot=config hotspot=config-apps file=0]`<destination>`. 
-They copy local files into the specified destination within your Podman image.
+They copy local files into the specified destination within your container image.
 In this case, the `inventory` server configuration files that are located at `src/main/liberty/config` are copied to the [hotspot=config file=0]`/config/` destination directory.
 The `inventory` application WAR file [hotspot=inventory-war file=0]`inventory.war`, which was created from running `mvn package`, is copied to the [hotspot=config-apps file=0]`/config/apps` destination directory.
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions use the [hotspot=config-userID hotspot=war-userID file=0]`1001` user ID  and [hotspot=config-userID hotspot=war-userID file=0]`0` group because the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image runs by default with the `USER 1001` (non-root) user for security purposes. Otherwise, the files and directories that are copied over are owned by the root user.
 
-Place the [hotspot=configure-sh file=0]`RUN configure.sh` command at the end to get a pre-warmed Podman image. It improves the startup time of running your Podman container.
+Place the [hotspot=configure-sh file=0]`RUN configure.sh` command at the end to get a pre-warmed container image. It improves the startup time of running your container.
 
-The `Dockerfile` for the `system` service follows the same instructions as the `inventory` service, except that some [hotspot=name hotspot=summary file=1]`labels` are updated, and the [hotspot=copy-war file=1]`system.war` archive is copied into `/config/apps`.
+The `Containerfile` for the `system` service follows the same instructions as the `inventory` service, except that some [hotspot=name hotspot=summary file=1]`labels` are updated, and the [hotspot=copy-war file=1]`system.war` archive is copied into `/config/apps`.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Create the `Dockerfile` for the system service.#
-`system/Dockerfile`
+#Create the `Containerfile` for the system service.#
+`system/Containerfile`
 ----
 
-system/Dockerfile
+system/Containerfile
 [source, Text, linenums, indent=0, role="code_column"]
 ----
-include::finish/system/Dockerfile[]
+include::finish/system/Containerfile[]
 ----
 
 
-=== Building your Podman image
+=== Building your container image
 
-Now that your microservices are packaged and you have written your Dockerfiles, you will build your Podman images by using the `podman build` command.
+Now that your microservices are packaged and you have written your Containerfiles, you will build your container images by using the `podman build` command.
 
-Run the following command to download or update to the latest Open Liberty Docker image:
+Run the following command to download or update to the latest Open Liberty container image:
 
 [role='command']
 ```
@@ -257,10 +258,10 @@ podman build -t system:1.0-SNAPSHOT system/.
 podman build -t inventory:1.0-SNAPSHOT inventory/.
 ```
 
-The `-t` flag in the `podman build` command allows the Podman image to be labeled (tagged) in the `name[:tag]` format. 
+The `-t` flag in the `podman build` command allows the container image to be labeled (tagged) in the `name[:tag]` format. 
 The tag for an image describes the specific image version. If the optional `[:tag]` tag is not specified, the `latest` tag is created by default.
 
-To verify that the images are built, run the `podman images` command to list all local Podman images:
+To verify that the images are built, run the `podman images` command to list all local container images:
 
 [role='command']
 ```
@@ -273,7 +274,7 @@ Or, run the `podman images` command with `--filter` option to list your images:
 podman images -f "label=org.opencontainers.image.authors=Your Name"
 ```
 
-Your two images, `inventory` and `system`, should appear in the list of all Podman images:
+Your two images, `inventory` and `system`, should appear in the list of all container images:
 
 [role="no_copy"]
 ----
@@ -283,8 +284,8 @@ system        1.0-SNAPSHOT    1dff6d0b4f31    5 minutes ago    470MB
 ----
 
 
-== Running your microservices in Podman containers
-Now that you have your two images built, you will run your microservices in Podman containers:
+== Running your microservices in containers
+Now that you have your two images built, you will run your microservices in containers:
 
 [role='command']
 ```
@@ -321,7 +322,7 @@ CONTAINER ID    IMAGE                   COMMAND                  CREATED        
 If a problem occurs and your containers exit prematurely, the containers don't appear in the container
 list that the `podman ps` command displays. Instead, your containers appear with an `Exited`
 status when they run the `podman ps -a` command. Run the `podman logs system` and `podman logs inventory` commands to view the
-container logs for any potential problems. Run the `podman stats system` and `podman stats inventory` commands to display a live stream of usage statistics for your containers. You can also double-check that your Dockerfiles are correct. When you
+container logs for any potential problems. Run the `podman stats system` and `podman stats inventory` commands to display a live stream of usage statistics for your containers. You can also double-check that your Containerfiles are correct. When you
 find the cause of the issues, remove the faulty containers with the `podman rm system` and `podman rm inventory` commands. Rebuild
 your images, and start the containers again.
 
@@ -341,7 +342,7 @@ curl -s http://localhost:9081/inventory/systems | jq
 {: codeblock}
 endif::[]
 
-Next, retrieve the `system` container's IP address by using the `system` container's name that is defined when it ran the Podman containers. 
+Next, retrieve the `system` container's IP address by using the `system` container's name that is defined when it ran the containers. 
 Run the following command to retrieve the `system` IP address:
 
 [role='command']
@@ -434,7 +435,7 @@ podman run -d --name inventory -e default.http.port=9091 -p 9091:9091 inventory:
 ```
 
 The `-e` flag can be used to create and set the values of environment variables
-in a Podman container. In this case, you are setting the `default.http.port` environment
+in a container. In this case, you are setting the `default.http.port` environment
 variable to `9091` for the `inventory` container.
 
 Now, when the service is starting up, Open Liberty finds the
@@ -488,7 +489,7 @@ https://openliberty.io/docs/latest/reference/config/server-configuration-overvie
 
 == Testing the microservices
 
-You can test your microservices manually by hitting the endpoints or with automated tests that check your running Podman containers.
+You can test your microservices manually by hitting the endpoints or with automated tests that check your running containers.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -525,7 +526,7 @@ include::finish/inventory/src/test/java/it/io/openliberty/guides/inventory/Inven
 === Running the tests
 // static guide instructions
 ifndef::cloud-hosted[]
-Run the Maven `package` goal to compile the test classes. Run the Maven `failsafe` goal to test the services that are running in the Podman containers by replacing the `[system-ip-address]` with the IP address that you determined previously.
+Run the Maven `package` goal to compile the test classes. Run the Maven `failsafe` goal to test the services that are running in the containers by replacing the `[system-ip-address]` with the IP address that you determined previously.
 
 [role='command']
 ```
@@ -536,7 +537,7 @@ endif::[]
 
 // cloud-hosted guide instructions
 ifdef::cloud-hosted[]
-Run the Maven **package** goal to compile the test classes. Run the Maven **failsafe** goal to test the services that are running in the Podman containers by setting **-Dsystem.ip** to the IP address that you determined previously.
+Run the Maven **package** goal to compile the test classes. Run the Maven **failsafe** goal to test the services that are running in the containers by setting **-Dsystem.ip** to the IP address that you determined previously.
 
 ```
 SYSTEM_IP=`podman inspect -f "{{.NetworkSettings.IPAddress }}" system`
@@ -582,6 +583,6 @@ podman rm inventory system
 
 == Great work! You're done!
 
-You have just built Podman images and run two microservices on Open Liberty in containers. 
+You have just built container images and run two microservices on Open Liberty in containers. 
 
 include::{common-includes}/attribution.adoc[]
