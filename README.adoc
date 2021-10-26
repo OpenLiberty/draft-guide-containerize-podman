@@ -213,7 +213,7 @@ comes with the Open Liberty runtime, define the `FROM` instruction as `FROM open
 You can find all the https://hub.docker.com/_/open-liberty[official images^] and
 https://hub.docker.com/r/openliberty/open-liberty/[ubi images^] on the open-liberty Docker Hub.
 
-It is also recommended to label your container images with the [hotspot=label file=0]`LABEL` command, as the label information can help you manage your images. For more information, see https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#label[Best practices for writing Containerfiles^].
+It is also recommended to label your container images with the [hotspot=label file=0]`LABEL` command, as the label information can help you manage your images.
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions are structured as `COPY` [hotspot=config-userID hotspot=war-userID file=0]`[--chown=<user>:<group>]` [hotspot=inventory-config hotspot=inventory-war file=0]`<source>` [hotspot=config hotspot=config-apps file=0]`<destination>`. 
 They copy local files into the specified destination within your container image.
@@ -278,9 +278,9 @@ Your two images, `inventory` and `system`, should appear in the list of all cont
 
 [role="no_copy"]
 ----
-REPOSITORY    TAG             IMAGE ID        CREATED          SIZE
-inventory     1.0-SNAPSHOT    08fef024e986    4 minutes ago    471MB
-system        1.0-SNAPSHOT    1dff6d0b4f31    5 minutes ago    470MB
+REPOSITORY            TAG           IMAGE ID      CREATED        SIZE
+localhost/inventory   1.0-SNAPSHOT  9d991299725c  4 minutes ago  933 MB
+localhost/system      1.0-SNAPSHOT  a9b29bc94afd  5 minutes ago  931 MB
 ----
 
 
@@ -314,9 +314,9 @@ Make sure that your containers are running and show `Up` as their status:
 
 [role="no_copy"]
 ----
-CONTAINER ID    IMAGE                   COMMAND                  CREATED          STATUS          PORTS                                        NAMES
-2b584282e0f5    inventory:1.0-SNAPSHOT  "/opt/ol/helpers/run…"   2 seconds ago    Up 1 second     9080/tcp, 9443/tcp, 0.0.0.0:9081->9081/tcp   inventory
-99a98313705f    system:1.0-SNAPSHOT     "/opt/ol/helpers/run…"   3 seconds ago    Up 2 seconds    0.0.0.0:9080->9080/tcp, 9443/tcp             system
+CONTAINER ID    IMAGE                             COMMAND                CREATED          STATUS          PORTS                                        NAMES
+2b584282e0f5    localhost/inventory:1.0-SNAPSHOT  /opt/ol/wlp/bin/s...   2 seconds ago    Up 1 second     9080/tcp, 9443/tcp, 0.0.0.0:9081->9081/tcp   inventory
+99a98313705f    localhost/system:1.0-SNAPSHOT     /opt/ol/wlp/bin/s...   3 seconds ago    Up 2 seconds    0.0.0.0:9080->9080/tcp, 9443/tcp             system
 ----
 
 If a problem occurs and your containers exit prematurely, the containers don't appear in the container
@@ -354,7 +354,7 @@ You find the `system` container's IP address:
 
 [role="no_copy"]
 ----
-172.17.0.2
+10.88.0.2
 ----
 
 In this case, the IP address for the `system` service is `172.17.0.2`. Take note of this IP address to add the system properties to the `inventory` service. 
