@@ -14,16 +14,16 @@ mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package
     
-docker pull openliberty/open-liberty:kernel-java8-openj9-ubi
+podman pull openliberty/open-liberty:kernel-java8-openj9-ubi
 
-docker build -t system system/.
-docker build -t inventory inventory/.
+podman build -t system system/.
+podman build -t inventory inventory/.
 
-docker images -f "label=org.opencontainers.image.authors=Your Name" | grep system
-docker images -f "label=org.opencontainers.image.authors=Your Name" | grep inventory
+podman images -f "label=org.opencontainers.image.authors=Your Name" | grep system
+podman images -f "label=org.opencontainers.image.authors=Your Name" | grep inventory
 
-docker run -d --name system -p 9080:9080 system
-docker run -d --name inventory -p 9081:9081 inventory
+podman run -d --name system -p 9080:9080 system
+podman run -d --name inventory -p 9081:9081 inventory
 
 sleep 120
 
@@ -42,5 +42,5 @@ else
   exit 1
 fi
 
-docker stop inventory system
-docker rm inventory system
+podman stop inventory system
+podman rm inventory system
