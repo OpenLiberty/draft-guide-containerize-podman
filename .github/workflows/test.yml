@@ -57,7 +57,7 @@ jobs:
     - name: Post tests
       if: always()
       run: | 
-          sudo docker images
+          sudo podman images
           cd ../start
           logsPath=$(sudo find . -name "console.log" | grep inventory);
           sudo cat $logsPath | sudo grep Launching
