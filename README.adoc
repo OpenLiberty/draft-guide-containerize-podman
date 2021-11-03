@@ -41,9 +41,9 @@ You'll learn how to build container images and run containers using the https://
 You'll construct `Containerfile` files, create container images by using the `podman build` command, and run the image as containers 
 by using `podman run` command.
 
-Podman and https://buildah.io[Buildah^] are related open-source container tools built to run on most Linux platforms. While Buildah is designed specifically
-for building container images, Podman further incorporates functionality to maintain those images, in addition to the creation and running of containers.
-Podman uses Buildah's functionality to create the container image it uses.
+Podman and https://buildah.io[Buildah^] are related open-source container tools built to run on most Linux platforms.
+While Buildah is designed specifically for building container images, Podman further incorporates functionality to maintain those images, 
+in addition to the creation and running of containers. Podman uses Buildah's functionality to create the container image it uses.
 
 The two microservices that you'll be working with are called `system` and `inventory`. The `system` microservice returns the JVM system properties 
 of the running container. The `inventory` microservice adds the properties from the `system` microservice to the inventory. This guide demonstrates how both microservices can run and communicate
