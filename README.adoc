@@ -42,8 +42,8 @@ You'll construct `Containerfile` files, create container images by using the `po
 by using `podman run` command.
 
 Podman and https://buildah.io[Buildah^] are related open-source container tools built to run on most Linux platforms.
-While Buildah is designed specifically for building container images, Podman further incorporates functionality to maintain those images, 
-in addition to the creation and running of containers. Podman uses Buildah's functionality to create the container image it uses.
+Buildah is designed specifically for building container images from either a Containerfile or the command line. In contrast, Podman further incorporates functionality to maintain those images, 
+in addition to creating and running containers. Podman uses Buildah's functionality to create the container image it uses.
 
 The two microservices that you'll be working with are called `system` and `inventory`. The `system` microservice returns the JVM system properties 
 of the running container. The `inventory` microservice adds the properties from the `system` microservice to the inventory. This guide demonstrates how both microservices can run and communicate
@@ -185,7 +185,7 @@ The `inventory` service is built in a similar way.
 A container image is a binary file. It is made up of multiple layers and is used to run code in a container. Images are built from
 instructions in Containerfiles to create a containerized version of the application.
 
-A `Containerfile` is a collection of instructions for building a container image that can then be run as a container.
+A `Containerfile` is a collection of instructions for building a container image that can then be run as a container. These files can be interpreted directly by Buildah, or via Podman.
 As each instruction is run in a `Containerfile`, a new image layer is created. These layers, which are known as intermediate images, are created when a change is made to your container image.
 
 Every `Containerfile` begins with a parent or base image over which various commands are run. For example, you can start your image from scratch and run commands that download and install a Java runtime, or you can start from an image that already contains a Java installation.
