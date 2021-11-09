@@ -34,8 +34,8 @@ Learn how to containerize and run your microservices with Open Liberty using Pod
 
 You can easily deploy your microservices in different environments in a lightweight and portable manner by using containers.
 From development to production and across your DevOps environments, you can deploy your microservices consistently and
-efficiently with containers. You can run a container from a container image. Each container image is a package of what you
-need to run your microservice or application, from the code to its dependencies and configuration.
+efficiently with containers. You can run a container from a container image, which can be defined by a Containerfile or a Dockerfile.
+Each container image is a package of what you need to run your microservice or application, from the code to its dependencies and configuration.
 
 You'll learn how to build container images and run containers using the https://docs.podman.io[Pod Manager tool^] (Podman) for your microservices.
 You'll construct `Containerfile` files, create container images by using the `podman build` command, and run the image as containers 
@@ -185,8 +185,11 @@ The `inventory` service is built in a similar way.
 A container image is a binary file. It is made up of multiple layers and is used to run code in a container. Images are built from
 instructions in Containerfiles to create a containerized version of the application.
 
+The syntax for a Containerfile and a Dockerfile are the same. Podman can build your container image using either Containerfiles or Dockerfiles. Containerfiles will be used in this guide.
+
 A `Containerfile` is a collection of instructions for building a container image that can then be run as a container. These files can be interpreted directly by Buildah, or via Podman.
-As each instruction is run in a `Containerfile`, a new image layer is created. These layers, which are known as intermediate images, are created when a change is made to your container image.
+The `podman build` command uses Buildah to build your container image. As each instruction is run in a `Containerfile`, a new image layer is created.
+These layers, which are known as intermediate images, are created when a change is made to your container image.
 
 Every `Containerfile` begins with a parent or base image over which various commands are run. For example, you can start your image from scratch and run commands that download and install a Java runtime, or you can start from an image that already contains a Java installation.
 
