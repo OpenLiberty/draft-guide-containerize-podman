@@ -212,14 +212,13 @@ include::finish/inventory/Containerfile[]
 
 The [hotspot=from file=0]`FROM` instruction initializes a new build stage, which indicates the parent image of the built image. If you don't need a parent image, then you can use `FROM scratch`, which makes your image a base image. 
 
-In this guide, you're using the production image from the IBM Container Registry (ICR),
-`icr.io/appcafe/open-liberty:full-java11-openj9-ubi`, as your parent image. This image is tagged with the word `full`, meaning it includes all Liberty features.
-Because this significantly expands the image size for some features that will likely go unused, these images are recommended for development only.
+In this guide, you're using an official image from the IBM Container Registry (ICR), `icr.io/appcafe/open-liberty:full-java11-openj9-ubi`, as your parent image. This image is tagged with the word `full`, meaning it includes all Liberty features.
+`full` images are recommended for development only since they significantly expand the image size with features that are not required by the application.
 
-In production, to minimize your image footprint, it is recommended that you use the `kernel-slim` image from `icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi`.
-This will install the basic server, to which you can then add all necessary features via the usage pattern detailed in the Open Liberty https://github.com/OpenLiberty/ci.docker#building-an-application-image[container image documentation^].
+In production, to minimize your image footprint, it is recommended that you use one of the `kernel-slim` images. For example, `icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi`.
+This will install the basic server, to which you can then add all the necessary features for your application via the usage pattern detailed in the Open Liberty https://github.com/OpenLiberty/ci.docker#building-an-application-image[container image documentation^].
 To use the default image that comes with the Open Liberty runtime, define the `FROM` instruction as `FROM icr.io/appcafe/open-liberty`. 
-You can find links to all official images and Universal Base Images (ubi) on the Open Liberty https://github.com/OpenLiberty/ci.docker#container-images[container image repository^].
+You can find all official images on the Open Liberty https://github.com/OpenLiberty/ci.docker#container-images[container image repository^].
 
 It is also recommended to label your container images with the [hotspot=label file=0]`LABEL` command, as the label information can help you manage your images.
 
@@ -229,7 +228,8 @@ In this case, the `inventory` server configuration files that are located at `sr
 The `inventory` application WAR file [hotspot=inventory-war file=0]`inventory.war`, which was created from running `mvn package`, is copied to the [hotspot=config-apps file=0]`/config/apps` destination directory.
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions use the [hotspot=config-userID hotspot=war-userID file=0]`1001` user ID  and [hotspot=config-userID hotspot=war-userID file=0]`0` group because all official Open Liberty base images,
-including `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` used in this case, run by default with the `USER 1001` (non-root) user for security purposes. Otherwise, the files and directories that are copied over are owned by the root user.
+including `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` used in this case, run by default with the `USER 1001` (non-root) user for security purposes. Otherwise, the files and directories that are copied over are owned by the root user and a non-root user will be unable to access them.
+
 
 Place the [hotspot=configure-sh file=0]`RUN configure.sh` command at the end to get a pre-warmed container image. It improves the startup time of running your container.
 
