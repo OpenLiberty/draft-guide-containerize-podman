@@ -81,7 +81,7 @@ cd start
 endif::[]
 
 You can find the starting Java project in the `start` directory. 
-This project is a multi-module Maven project that is made up of the `system` and inven`tory microservices. Each microservice is located in its own corresponding directory, `system` and `inventory`.
+This project is a multi-module Maven project that is made up of the `system` and `inventory` microservices. Each microservice is located in its own corresponding directory, `system` and `inventory`.
 
 To try out the microservices by using Maven, run the following Maven goal to build the `system` microservice and run it inside Open Liberty:
 [role='command']
@@ -188,7 +188,7 @@ The `inventory` service is built in a similar way.
 A container image is a binary file. It is made up of multiple layers and is used to run code in a container. Images are built from
 instructions in `Containerfile` files to create a containerized version of the application.
 
-The syntax for a `Containerfile` and a Dockerfile are the same. 
+The syntax for a `Containerfile` and a `Dockerfile` are the same. 
 Podman can build your container image by using either `Containerfile` files or `Dockerfile` files. `Containerfile` files are used in this guide.
 
 A `Containerfile` file is a collection of instructions for building a container image that can then be run as a container. These files can be interpreted by Buildah directly or through Podman.
