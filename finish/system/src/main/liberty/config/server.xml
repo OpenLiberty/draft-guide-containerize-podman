@@ -12,7 +12,7 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  <webApplication location="system.war" contextRoot="/">
+  <webApplication location="guide-containerize-podman-system.war" contextRoot="/">
   
   </webApplication>
 

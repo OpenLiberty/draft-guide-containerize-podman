@@ -17,7 +17,7 @@
       id="defaultHttpEndpoint" host="*" />
   <!-- end::httpEndpoint[] -->
 
-  <webApplication location="inventory.war" contextRoot="/">
+  <webApplication location="guide-containerize-podman-inventory.war" contextRoot="/">
 
   </webApplication>
 
