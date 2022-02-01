@@ -38,7 +38,7 @@ public class SystemEndpointIT {
         String nodePort = System.getProperty("system.http.port");
         clusterUrl = "http://localhost:" + nodePort + "/system/properties/";
     }
-    
+
     @BeforeEach
     public void setup() {
         client = ClientBuilder.newBuilder()
@@ -54,7 +54,7 @@ public class SystemEndpointIT {
     public void teardown() {
         client.close();
     }
-    
+
     // tag::testGetProperties[]
     @Test
     public void testGetProperties() {
@@ -64,7 +64,7 @@ public class SystemEndpointIT {
         WebTarget target = client.target(clusterUrl);
         Response response = target.request().get();
 
-        assertEquals(200, response.getStatus(), 
+        assertEquals(200, response.getStatus(),
             "Incorrect response code from " + clusterUrl);
         response.close();
     }
