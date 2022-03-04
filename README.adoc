@@ -9,14 +9,14 @@
 :projectid: containerize-podman
 :page-layout: guide-multipane
 :page-duration: 20 minutes
-:page-releasedate: 2019-07-23
-:page-description: Learn how to containerize and run your microservices with Open Liberty using Podman
+:page-releasedate: 2022-03-07
+:page-description: Learn how to containerize and run your microservices on Open Liberty using Podman
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['containerize', 'docker', 'kubernetes-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-:page-seo-title: Containerizing and running Java microservices in Podman containers
-:page-seo-description: A getting started tutorial with examples of how to containerize or dockerize your Java microservices by building a container image and running the image as a Podman container.
+:page-seo-title: Containerizing and running Java microservices in containers using Podman
+:page-seo-description: A getting started tutorial with examples of how to containerize (or Dockerize) your Java microservices and applications by building container images and running the images as containers using the Podman (Pod Manager) tool
 :guide-author: Open Liberty
 = Containerizing microservices with Podman
 
@@ -41,7 +41,7 @@ You'll learn how to build container images and run containers using the https://
 You'll construct `Containerfile` files, create container images by using the `podman build` command, and run the image as containers 
 by using `podman run` command.
 
-Podman and https://buildah.io[Buildah^] are related open-source container tools built to run on most Linux platforms.
+Podman and https://buildah.io[Buildah^] are related open-source container tools built to run on most Linux platforms and more.
 Buildah is designed specifically for building container images from either a `Containerfile` file or the command line. 
 You can use Podman to maintain those images, and to create and run containers. 
 Podman incorporates Buildah functions to create the container image that it uses.
@@ -192,7 +192,7 @@ instructions in `Containerfile` files to create a containerized version of the a
 Podman can build your container image by using either `Containerfile` files or `Dockerfile` files. `Containerfile` files are used in this guide.
 
 A `Containerfile` file is a collection of instructions for building a container image that can then be run as a container. These files can be interpreted by Buildah directly or through Podman.
-The `podman build` command uses Buildah to build your container image. As each instruction runs in a `Containerfile` file, a new image layer is created.
+The `podman build` command uses Buildah to build your container image. As each instruction in a `Containerfile` file runs, a new image layer is created.
 These layers, which are known as intermediate images, are created when a change is made to your container image.
 
 Learn more about Podman on the https://podman.io/getting-started/[official Podman page^].
@@ -201,11 +201,11 @@ Learn more about Podman on the https://podman.io/getting-started/[official Podma
 You will be creating two container images to run the `inventory` service and `system` service. The first step is to create `Containerfile` files for both services.
 
 In this guide, you're using an official image from the IBM Container Registry (ICR), `icr.io/appcafe/open-liberty:full-java11-openj9-ubi`, as your parent image. This image is tagged with the word `full`, meaning it includes all Liberty features.
-`full` images are recommended for development only because they significantly expand the image size with features that are not required by the application.
+`full` images include all available features and are recommended for development only because they contain features that may not be required by your application and will significantly expand the image size.
 
 To minimize your image footprint in production, you can use one of the `kernel-slim` images, such as `icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi`. 
-This image installs the basic server. You can then add all the necessary features for your application with the usage pattern that is detailed in the Open Liberty https://github.com/OpenLiberty/ci.docker#building-an-application-image[container image documentation^].
-To use the default image that comes with the Open Liberty runtime, define the `FROM` instruction as `FROM icr.io/appcafe/open-liberty`. 
+This image installs the basic runtime. You can then add all the necessary features for your application with the usage pattern that is detailed in the Open Liberty https://github.com/OpenLiberty/ci.docker#building-an-application-image[container image documentation^].
+To use the default image available for Open Liberty, define the `FROM` instruction as `FROM icr.io/appcafe/open-liberty`. 
 You can find all official images on the Open Liberty https://github.com/OpenLiberty/ci.docker#container-images[container image repository^].
 
 [role="code_command hotspot file=0", subs="quotes"]
@@ -233,7 +233,7 @@ The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions use the [ho
 including `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` used in this case, run by default with the `USER 1001` (non-root) user for security purposes. Otherwise, the files and directories that are copied over are owned by the root user and a non-root user will be unable to access them.
 
 
-Place the [hotspot=configure-sh file=0]`RUN configure.sh` command at the end to get a pre-warmed container image. It improves the startup time of running your container.
+Place the [hotspot=configure-sh file=0]`RUN configure.sh` command at the end to get a pre-warmed container image. It improves the startup time of running your container especially for production deployment.
 
 The `Containerfile` file for the `system` service follows the same instructions as the `inventory` service, except that some [hotspot=name hotspot=summary file=1]`labels` are updated, and the [hotspot=copy-war file=1]`system.war` archive is copied into `/config/apps`.
 
@@ -590,6 +590,6 @@ podman rm inventory system
 
 == Great work! You're done!
 
-You have just built container images and run two microservices on Open Liberty in containers. 
+You have just built container images and run two microservices on Open Liberty in containers using Podman. 
 
 include::{common-includes}/attribution.adoc[]
