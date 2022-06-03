@@ -525,7 +525,7 @@ Ensure that you repeat these instructions again for the `system` service.
 system/Containerfile
 [source, Text, linenums, indent=0, role="code_column"]
 ----
-include::finish/system/Dockerfile[]
+include::finish/system/Containerfile[]
 ----
 
 Continue by running the following commands to stop and remove your current `Podman` containers that are using the `full` parent image:
@@ -559,11 +559,11 @@ podman images -f "label=org.opencontainers.image.authors=Your Name"
 
 Notice that both the `full` and the `kernel-slim` images for both of the `inventory` and `system` services are in the list of all Podman images. Concurrently, you can note the size difference between the two sets of images:
 ----
-REPOSITORY      TAG             IMAGE ID        CREATED         SIZE
-inventory-slim  1.0-SNAPSHOT	d5a3d1b2c20e    4 minutes ago	705MB
-system-slim     1.0-SNAPSHOT	6346cf87eae0	5 minutes ago	701MB
-inventory       1.0-SNAPSHOT	5b0f25cee9c5	14 minutes ago	1.01GB
-system          1.0-SNAPSHOT	df4518f27d1e	14 minutes ago	1.01GB
+REPOSITORY                TAG           IMAGE ID      CREATED         SIZE
+localhost/inventory-slim  1.0-SNAPSHOT  eee0d13f0e80  3 minutes ago   674 MB
+localhost/system-slim     1.0-SNAPSHOT  5b8f87d6f0d5  4 minutes ago   726 MB
+localhost/inventory       1.0-SNAPSHOT  70e877d431d2  13 minutes ago  1.03 GB
+localhost/system          1.0-SNAPSHOT  7cd3afd34850  15 minutes ago  1.03 GB
 ----
 
 After confirming that the images have been built, run the following commands to start the `Podman` containers:
@@ -581,7 +581,7 @@ To ensure your containers are working properly, try accessing the `system` servi
 See http://localhost:9080/system/properties[http://localhost:9080/system/properties]
 
 Next, replace `[system-ip-address]` with the IP address that you obtained earlier and add your localhost system properties to the `inventory` service by visting:
-`http://localhost:9081/inventory/systems/[system-ip-address]`
+`\http://localhost:9081/inventory/systems/pass:c[[system-ip-address]]`
 
 Then verify the addition of your localhost system properties to your `inventory` service. 
 See http://localhost:9081/inventory/systems[http://localhost:9081/inventory/systems]
