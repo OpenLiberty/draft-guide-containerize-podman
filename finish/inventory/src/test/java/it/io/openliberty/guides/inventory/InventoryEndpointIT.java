@@ -15,7 +15,7 @@ package it.io.openliberty.guides.inventory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import jakarta.ws.rs.client.Client;
@@ -23,7 +23,6 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -59,7 +58,6 @@ public class InventoryEndpointIT {
             }
         }).build();
 
-        client.register(JsrJsonpProvider.class);
         client.target(invUrl + "reset").request().post(null);
     }
 

@@ -32,6 +32,10 @@ COPY --chown=1001:0 \
     # end::config[]
 # end::copy-config[]
 
+# tag::features
+RUN features.sh
+# end::features
+
 # tag::copy-war[]
 # tag::war-userID[]
 COPY --chown=1001:0 \
