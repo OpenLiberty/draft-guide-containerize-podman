@@ -569,7 +569,7 @@ podman run -d --name inventory -p 9081:9081 inventory:1.0-SNAPSHOT
 Once your `Podman` containers are running, run the following command to see the list of required features installed by `features.sh`:
 [role='command']
 ```
-docker exec -it /opt/ol/wlp/bin/productInfo featureInfo
+podman exec -it /opt/ol/wlp/bin/productInfo featureInfo
 ```
 
 Your list of Liberty features should be similar to the following:
