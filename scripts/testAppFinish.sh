@@ -18,7 +18,6 @@ podman pull openliberty/open-liberty:kernel-java8-openj9-ubi
 podman pull icr.io/appcafe/open-liberty:full-java11-openj9-ubi
 podman pull icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi
 
-
 podman build -t system -f ./system/Containerfile-full system/.
 podman build -t inventory -f ./inventory/Containerfile-full inventory/.
 podman build -t system-optimized system/.
