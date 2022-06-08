@@ -37,7 +37,7 @@ public class SystemEndpointIT {
         String nodePort = System.getProperty("system.http.port");
         clusterUrl = "http://localhost:" + nodePort + "/system/properties/";
     }
-    
+
     @BeforeEach
     public void setup() {
         client = ClientBuilder.newBuilder()
