@@ -512,7 +512,7 @@ include::finish/inventory/Containerfile[]
 
 Replace the parent image with [hotspot=kernel-slim file=0]`icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi` at the top of your Containerfile. This image contains the `kernel-slim` tag that's recommended when deploying to production.
 
-Place [hotspot=features file=0]`RUN features.sh`  command after the COPY command that the configuration file is copied to the '/config/` destination directory. The `features.sh` script adds the Liberty features that your application is required to operate.
+Place [hotspot=features file=0]`RUN features.sh`  command after the COPY command that the configuration file is copied to the `/config/` destination directory. The `features.sh` script adds the Liberty features that your application is required to operate.
 
 Ensure that you repeat these instructions again for the `system` service.
 
@@ -528,7 +528,7 @@ system/Containerfile
 include::finish/system/Containerfile[]
 ----
 
-Continue by running the following commands to stop and remove your current `Podman` containers that are using the `full` parent image:
+Continue by running the following commands to stop and remove your current containers that are using the `full` parent image:
 
 [role='command']
 ```
@@ -536,7 +536,7 @@ podman stop inventory system
 podman rm inventory system
 ```
 
-Next, build your new `Podman` images with the `kernel-slim` parent image:
+Next, build your new images with the `kernel-slim` parent image:
 
 [role='command']
 ```
@@ -544,7 +544,7 @@ podman build -t system:1.0-SNAPSHOT system/.
 podman build -t inventory:1.0-SNAPSHOT inventory/.
 ```
 
-Verify that the images have built by executing the following command to list all the local `Podman` images:
+Verify that the images have built by executing the following command to list all the local images:
 
 [role='command']
 ```
@@ -558,7 +558,7 @@ localhost/inventory   1.0-SNAPSHOT   eee0d13f0e80   3 minutes ago   674 MB
 localhost/system      1.0-SNAPSHOT   5b8f87d6f0d5   4 minutes ago   726 MB
 ----
 
-After confirming that the images have been built, run the following commands to start the `Podman` containers:
+After confirming that the images have been built, run the following commands to start the containers:
 
 [role='command']
 ```
@@ -566,7 +566,7 @@ podman run -d --name system -p 9080:9080 system:1.0-SNAPSHOT
 podman run -d --name inventory -p 9081:9081 inventory:1.0-SNAPSHOT
 ```
 
-Once your `Podman` containers are running, run the following command to see the list of required features installed by `features.sh`:
+Once your containers are running, run the following command to see the list of required features installed by `features.sh`:
 [role='command']
 ```
 podman exec -it /opt/ol/wlp/bin/productInfo featureInfo
@@ -605,7 +605,7 @@ curl -s http://localhost:9080/system/properties | jq
 
 Next, you can add your local system properties at the **http://localhost:9081/inventory/systems/[system-ip-address]** URL by replacing **[system-ip-address]** with the IP address that you obtained in the previous section. Run the following commands:
 ```bash
-SYSTEM_IP=`podman inspect -f "{{.NetworkSettings.IPAddress }}" system`
+SYSTEM_IP=`podmandocker inspect -f "{{.NetworkSettings.IPAddress }}" system`
 curl -s http://localhost:9081/inventory/systems/{$SYSTEM_IP} | jq
 ```
 
