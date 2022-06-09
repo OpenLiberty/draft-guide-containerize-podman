@@ -496,7 +496,7 @@ https://openliberty.io/docs/latest/reference/config/server-configuration-overvie
 
 == Optimizing the image size
 
-As previously mentioned, the parent image used in each `Containerfile` contains the `full` tag which includes all of the Liberty features. This is recommended for development but when deploying to production it's recommended to use a parent image with the `kernel-slim` tag to provide a bare minimum server with the ability to add the features required by the application.
+As previously mentioned, the parent image used in each `Containerfile` contains the `full` tag which includes all of the Liberty features. This is recommended for development but when deploying to production it's recommended to use a parent image with the `kernel-slim` tag. The `kernel-slim` tag provides a bare minimum server with the ability to add the features required by the application.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -605,7 +605,7 @@ curl -s http://localhost:9080/system/properties | jq
 
 Next, you can add your local system properties at the **http://localhost:9081/inventory/systems/[system-ip-address]** URL by replacing **[system-ip-address]** with the IP address that you obtained in the previous section. Run the following commands:
 ```bash
-SYSTEM_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}" system`
+SYSTEM_IP=`podman inspect -f "{{.NetworkSettings.IPAddress }}" system`
 curl -s http://localhost:9081/inventory/systems/{$SYSTEM_IP} | jq
 ```
 
