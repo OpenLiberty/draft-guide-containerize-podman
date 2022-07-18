@@ -26,4 +26,4 @@ COPY --chown=1001:0 src/main/liberty/config /config/
 COPY --chown=1001:0 target/system.war /config/apps
 # end::copy-war[]
 
-#RUN configure.sh
+RUN configure.sh
