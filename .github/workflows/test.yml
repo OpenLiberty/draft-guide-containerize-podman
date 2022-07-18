@@ -4,10 +4,6 @@ on:
   pull_request:
     branches: [ prod, staging ]
 
-env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
 jobs:
   check-files:
     if: ${{ github.event_name == 'pull_request' }}
@@ -54,8 +50,6 @@ jobs:
       with:
         java-version: 11
     - run: unset _JAVA_OPTIONS
-    - name: Docker login
-      run: echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USERNAME --password-stdin
     - name: Run tests
       run: |
           sudo ../scripts/testAppFinish.sh
