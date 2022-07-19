@@ -9,7 +9,7 @@ LABEL \
   org.opencontainers.image.authors="Your Name" \
   org.opencontainers.image.vendor="Open Liberty" \
   org.opencontainers.image.url="local" \
-  org.opencontainers.image.source="https://github.com/OpenLiberty/guide-containerize" \
+  org.opencontainers.image.source="https://github.com/OpenLiberty/guide-containerize-podman" \
   org.opencontainers.image.version="$VERSION" \
   org.opencontainers.image.revision="$REVISION" \
   vendor="Open Liberty" \
@@ -18,7 +18,7 @@ LABEL \
 # end::name[]
   version="$VERSION-$REVISION" \
 # tag::summary[]
-  summary="The system microservice from the Containerizing microservices guide" \
+  summary="The system microservice from the Containerizing microservices with Podman guide" \
   description="This image contains the system microservice running with the Open Liberty runtime."
 # end::summary[]
 
