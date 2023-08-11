@@ -151,7 +151,7 @@ endif::[]
 // static guide instructions:
 ifndef::cloud-hosted[]
 After you are finished checking out the microservices, stop the Open Liberty instances by pressing `CTRL+C`
-in the command-line sessions where you ran the servers. Alternatively, you can run the `liberty:stop` goal in another command-line session:
+in the command-line sessions where you ran the `system` and `inventory` services. Alternatively, you can run the `liberty:stop` goal in another command-line session:
 [role='command']
 ```
 mvn -pl system liberty:stop
@@ -162,8 +162,7 @@ endif::[]
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 After you are finished checking out the microservices, stop the Open Liberty instances by pressing **CTRL+C**
-in the command-line sessions where you ran the servers. Alternatively, you can run the **liberty:stop** goal in another command-line session from the 
-**start** directory:
+in the command-line sessions where you ran the **system** and **inventory** services. Alternatively, you can run the **liberty:stop** goal in another command-line session from the **start** directory:
 ```
 cd /home/project/guide-containerize/start
 mvn -pl system liberty:stop
@@ -226,7 +225,7 @@ Furthermore, you can label your container images with the [hotspot=label file=0]
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions are structured as `COPY` [hotspot=config-userID hotspot=war-userID file=0]`[--chown=<user>:<group>]` [hotspot=inventory-config hotspot=inventory-war file=0]`<source>` [hotspot=config hotspot=config-apps file=0]`<destination>`. 
 They copy local files into the specified destination within your container image.
-In this case, the `inventory` server configuration files that are located at `src/main/liberty/config` are copied to the [hotspot=config file=0]`/config/` destination directory.
+In this case, the `inventory` Liberty's configuration files that are located at `src/main/liberty/config` are copied to the [hotspot=config file=0]`/config/` destination directory.
 The `inventory` application WAR file [hotspot=inventory-war file=0]`inventory.war`, which was created from running `mvn package`, is copied to the [hotspot=config-apps file=0]`/config/apps` destination directory.
 
 The [hotspot=copy-config hotspot=copy-war file=0]`COPY` instructions use the [hotspot=config-userID hotspot=war-userID file=0]`1001` user ID  and [hotspot=config-userID hotspot=war-userID file=0]`0` group because all official Open Liberty base images,
@@ -398,7 +397,7 @@ curl -s http://localhost:9081/inventory/systems | jq
 {: codeblock}
 endif::[]
 
-== Externalizing server configuration
+== Externalizing Liberty's configuration
 
 // File 0
 inventory/server.xml
@@ -410,7 +409,7 @@ include::finish/inventory/src/main/liberty/config/server.xml[]
 As mentioned at the beginning of this guide, one of the advantages of using
 containers is that they are portable and can be moved and deployed efficiently
 across all of your DevOps environments. Configuration often changes across
-different environments, and by externalizing your server configuration, you
+different environments, and by externalizing your Liberty's configuration, you
 can simplify the development process.
 
 Imagine a scenario where you are developing an Open Liberty application on
@@ -491,12 +490,12 @@ curl -s http://localhost:9080/system/properties | jq
 endif::[]
 
 You can externalize the configuration of more than just the port numbers.
-To learn more about Open Liberty instance configuration, check out the
+To learn more about Open Liberty configuration, check out the
 https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html[Server Configuration Overview^] docs. 
 
 == Optimizing the image size
 
-As mentioned previously, the parent image that is used in each `Containerfile` contains the `full` tag, which includes all of the Liberty features. This parent image with the `full` tag is recommended for development, but while deploying to production it is recommended to use a parent image with the `kernel-slim` tag. The `kernel-slim` tag provides a bare minimum server with the ability to add the features required by the application.
+As mentioned previously, the parent image that is used in each `Containerfile` contains the `full` tag, which includes all of the Liberty features. This parent image with the `full` tag is recommended for development, but while deploying to production it is recommended to use a parent image with the `kernel-slim` tag. The `kernel-slim` tag provides a bare minimum Liberty runtime with the ability to add the features required by the application.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
