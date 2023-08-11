@@ -150,7 +150,7 @@ endif::[]
 
 // static guide instructions:
 ifndef::cloud-hosted[]
-After you are finished checking out the microservices, stop the Open Liberty servers by pressing `CTRL+C`
+After you are finished checking out the microservices, stop the Open Liberty instances by pressing `CTRL+C`
 in the command-line sessions where you ran the servers. Alternatively, you can run the `liberty:stop` goal in another command-line session:
 [role='command']
 ```
@@ -161,7 +161,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-After you are finished checking out the microservices, stop the Open Liberty servers by pressing **CTRL+C**
+After you are finished checking out the microservices, stop the Open Liberty instances by pressing **CTRL+C**
 in the command-line sessions where you ran the servers. Alternatively, you can run the **liberty:stop** goal in another command-line session from the 
 **start** directory:
 ```
@@ -491,7 +491,7 @@ curl -s http://localhost:9080/system/properties | jq
 endif::[]
 
 You can externalize the configuration of more than just the port numbers.
-To learn more about Open Liberty server configuration, check out the
+To learn more about Open Liberty instance configuration, check out the
 https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html[Server Configuration Overview^] docs. 
 
 == Optimizing the image size
