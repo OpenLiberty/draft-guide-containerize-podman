@@ -58,7 +58,7 @@ fi
 
 podman stop inventory
 podman rm inventory
-podman run -d --name inventory -e default.http.port=9091 -p 9091:9091 inventory
+podman run -d --name inventory -e http.port=9091 -p 9091:9091 inventory
 
 sleep 30
 

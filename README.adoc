@@ -1,4 +1,4 @@
-// Copyright (c) 2022, 2023 IBM Corporation and others.
+// Copyright (c) 2022, 2024 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -253,13 +253,6 @@ include::finish/system/Containerfile-full[]
 
 Now that your microservices are packaged and your `Containerfile` files are written, you will build your container images by using the `podman build` command.
 
-Run the following command to download or update to the latest Open Liberty container image:
-
-[role='command']
-```
-podman pull icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi
-```
-
 Run the following commands to build container images for your application:
 
 [role='command']
@@ -424,29 +417,29 @@ In this example, you will use an environment variable to externally configure th
 HTTP port number of the `inventory` service. 
 
 In the [hotspot file=0]`inventory/server.xml` file, 
-the [hotspot=httpPort file=0]`default.http.port` variable is declared and is used in the
+the [hotspot=httpPort file=0]`http.port` variable is declared and is used in the
 [hotspot=httpEndpoint file=0]`httpEndpoint` element to define the service
-endpoint. The default value of the [hotspot=httpPort file=0]`default.http.port`
+endpoint. The default value of the [hotspot=httpPort file=0]`http.port`
 variable is `9081`. However, this value is only used if no other value is specified. 
 You can replace this value in the container by using the -e flag for the podman run command. 
 
-Run the following commands to stop and remove the `inventory` container and rerun it with the `default.http.port` environment variable set:
+Run the following commands to stop and remove the `inventory` container and rerun it with the `http.port` environment variable set:
 
 [role='command']
 ```
 podman stop inventory
 podman rm inventory 
-podman run -d --name inventory -e default.http.port=9091 -p 9091:9091 inventory:1.0-SNAPSHOT
+podman run -d --name inventory -e http.port=9091 -p 9091:9091 inventory:1.0-SNAPSHOT
 ```
 
 The `-e` flag can be used to create and set the values of environment variables
-in a container. In this case, you are setting the `default.http.port` environment
+in a container. In this case, you are setting the `http.port` environment
 variable to `9091` for the `inventory` container. The `-p` flag then maps the local port
 to the new container port that was specified via the environment variable.
 
 Now, when the service is starting up, Open Liberty finds the
-`default.http.port` environment variable and uses it to set the value of the
-[hotspot=httpPort file=0]`default.http.port` variable to be used in the HTTP
+`http.port` environment variable and uses it to set the value of the
+[hotspot=httpPort file=0]`http.port` variable to be used in the HTTP
 endpoint.
 
 // static guide instructions:
@@ -574,14 +567,12 @@ podman exec -it inventory /opt/ol/wlp/bin/productInfo featureInfo
 Your list of Liberty features should be similar to the following:
 ----
 jndi-1.0
-servlet-5.0
-cdi-3.0
-concurrent-2.0
-jsonb-2.0
-jsonp-2.0
-mpConfig-3.0
-restfulWS-3.0
-restfulWSClient-3.0
+cdi-4.0
+jsonb-3.0
+jsonp-2.1
+mpConfig-3.1
+restfulWS-3.1
+restfulWSClient-3.1
 ----
 
 // static guide instructions:
