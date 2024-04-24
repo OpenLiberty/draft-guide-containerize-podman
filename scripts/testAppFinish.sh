@@ -74,5 +74,14 @@ else
   exit 1
 fi
 
+podman exec system cat /logs/messages.log | grep product
+podman exec system cat /logs/messages.log | grep java
+podman exec system-optimized cat /logs/messages.log | grep product
+podman exec system-optimized cat /logs/messages.log | grep java
+podman exec inventory cat /logs/messages.log | grep product
+podman exec inventory cat /logs/messages.log | grep java
+podman exec inventory-optimized cat /logs/messages.log | grep product
+podman exec inventory-optimized cat /logs/messages.log | grep java
+
 podman stop inventory system inventory-optimized system-optimized
 podman rm inventory system inventory-optimized system-optimized
