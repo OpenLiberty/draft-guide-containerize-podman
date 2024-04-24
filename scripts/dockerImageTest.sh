@@ -18,9 +18,9 @@ cat system/Containerfile inventory/Containerfile
 sed -i "s;FROM icr.io/appcafe/open-liberty:full-java11-openj9-ubi;FROM cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi;g" system/Containerfile-full inventory/Containerfile-full
 cat system/Containerfile-full inventory/Containerfile-full
 
-echo "$DOCKER_PASSWORD" | sudo podman login -u "$DOCKER_USERNAME" --password-stdin cp.stg.icr.io
-sudo podman pull -q "cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi"
-sudo echo "build level:"; podman inspect --format "{{ index .Config.Labels \"org.opencontainers.image.revision\"}}" cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi
+echo "$DOCKER_PASSWORD" | podman login -u "$DOCKER_USERNAME" --password-stdin cp.stg.icr.io
+podman pull -q "cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi"
+echo "build level:"; podman inspect --format "{{ index .Config.Labels \"org.opencontainers.image.revision\"}}" cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi
 
-sudo ../scripts/testAppFinish.sh
-sudo ../scripts/testAppStart.sh
+../scripts/testAppFinish.sh
+../scripts/testAppStart.sh
