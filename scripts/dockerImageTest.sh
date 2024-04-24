@@ -16,6 +16,7 @@ sed -i "s;FROM icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi;FROM cp
 sed -i "s;RUN features.sh;#RUN features.sh;g" system/Containerfile inventory/Containerfile
 cat system/Containerfile inventory/Containerfile
 sed -i "s;FROM icr.io/appcafe/open-liberty:full-java11-openj9-ubi;FROM cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi;g" system/Containerfile-full inventory/Containerfile-full
+sed -i "s;RUN features.sh;#RUN features.sh;g" system/Containerfile-full inventory/Containerfile-full
 cat system/Containerfile-full inventory/Containerfile-full
 
 echo "$DOCKER_PASSWORD" | podman login -u "$DOCKER_USERNAME" --password-stdin cp.stg.icr.io
