@@ -13,8 +13,10 @@ done
 sed -i "\#<artifactId>liberty-maven-plugin</artifactId>#a<configuration><install><runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/$DATE/$DRIVER</runtimeUrl></install></configuration>" ../start/system/pom.xml ../start/inventory/pom.xml ../finish/system/pom.xml ../finish/inventory/pom.xml
 cat ../start/system/pom.xml ../start/inventory/pom.xml ../finish/system/pom.xml ../finish/inventory/pom.xml
 
-sed -i "s;FROM icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD;g" system/Containerfile inventory/Containerfile
-cat system/Containerfile inventory/Containerfile
+if [[ "$DOCKER_USERNAME" != "" ]]; then
+    sed -i "s;FROM icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD;g" system/Containerfile inventory/Containerfile
+    cat system/Containerfile inventory/Containerfile
+fi
 
 ../scripts/testAppFinish.sh
 ../scripts/testAppStart.sh
