@@ -59,6 +59,8 @@ jobs:
       run: | 
           podman images
           cd ../start
+          logsPath=$(find . -name "console.log" | grep system);
+          sudo cat "$logsPath" | grep Launching
           logsPath=$(find . -name "console.log" | grep inventory);
           sudo cat "$logsPath" | grep Launching
     - name: Archive server logs if failed
