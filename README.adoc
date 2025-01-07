@@ -1,4 +1,4 @@
-// Copyright (c) 2022, 2024 IBM Corporation and others.
+// Copyright (c) 2022, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -52,7 +52,7 @@ with each other in different containers.
 
 == Additional prerequisites
 
-Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/getting-started/installation[official Podman documentation^]. You will build and run the microservices in containers.
+Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/docs/installation[official Podman documentation^]. You will build and run the microservices in containers.
 
 If you are running Mac or Windows, make sure to start your Podman-managed VM before you proceed.
 
@@ -194,7 +194,7 @@ A `Containerfile` file is a collection of instructions for building a container 
 The `podman build` command uses Buildah to build your container image. As each instruction in a `Containerfile` file runs, a new image layer is created.
 These layers, which are known as intermediate images, are created when a change is made to your container image.
 
-Learn more about Podman on the https://podman.io/getting-started/[official Podman page^].
+Learn more about Podman on the https://podman.io/get-started[official Podman page^].
 
 === Creating your Containerfile files
 You will be creating two container images to run the `inventory` service and `system` service. The first step is to create `Containerfile` files for both services.
